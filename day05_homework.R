@@ -1,18 +1,23 @@
 # DAY 5 HOMEWORK
 #
-# Name:
+# Name:Ayane Sekine
 
 # NOTE: In the text below, backticks ``
 # are used to indicate code. For example, `library(tidyverse)`
 
 # Before doing anything else, load the packages you need for this assignment:
 # `tidyverse` and `nycflights13`
-
+library(tidyverse)
+library(nycflights13)
 # Q1. The `nycflights13` package includes a dataframe called `planes` that
 # contains data for each airplane such as manufacturer, model, etc.
 #
 # Join the `planes` dataframe to the `flights` dataframe, keeping all rows in
 # `flights`. Save the result as answer_1
+
+answer_1 <- flights |>
+  left_join(planes, by = "tailnum")
+
 #
 # HINT: the `tailnum` column uniquely identifies each airplane.
 
@@ -22,17 +27,30 @@
 #
 # HINT: use `count()`
 
+answer_2 <- answer_1 |>
+  count(manufacturer) |> 
+  arrange(desc(n))
+
 # Q3. Does every flight in the `flights` dataframe have a corresponding
 # airplane in `planes`?
 #
 # Save your answer as a logical vector (either TRUE or FALSE) to answer_3
 
+flights_missing <- answer_1 |>
+  filter(is.na(manufacturer))
+
+answer_3 <-nrow(flights_missing)>0
+
+
 # Q4. The `nycflights13` package includes a dataframe called `airlines` that
 # includes the name of each airline and its corresponding carrier code.
 # For example, the carrier code for American Airlines Inc. is AA.
-#
+
 # Join the `airlines` dataframe to the `flights` dataframe, keeping all rows in
 # `flights`. Save the result as answer_4
+
+answer_4 <- flights |>
+  left_join(airlines, by ="carrier")
 
 # Q5. Use answer_4 to find the average arrival delay for each airline.
 # Exclude missing values from your calculation.
@@ -43,4 +61,11 @@
 #
 # HINT: when you use functions like `mean()`, `max()`, or `min()`, use the
 # option `na.rm = TRUE` to exclude missing values from the calculation
+
+answer_5 <- answer_4 |>
+  group_by(name) |>
+  summarize(
+    average_arrival_delay = mean(arr_delay, na.rm = TRUE)
+  )
+
 
