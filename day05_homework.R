@@ -9,6 +9,8 @@
 # `tidyverse` and `nycflights13`
 library(tidyverse)
 library(nycflights13)
+library(tidyverse)
+library(nycflights13)
 # Q1. The `nycflights13` package includes a dataframe called `planes` that
 # contains data for each airplane such as manufacturer, model, etc.
 #
@@ -36,10 +38,10 @@ answer_2 <- answer_1 |>
 #
 # Save your answer as a logical vector (either TRUE or FALSE) to answer_3
 
-flights_missing <- answer_1 |>
-  filter(is.na(manufacturer))
+answer_3 <- answer_1 |>
+  filter(is.na(tailnum))|>
+  count("NA")<1
 
-answer_3 <-nrow(flights_missing)>0
 
 
 # Q4. The `nycflights13` package includes a dataframe called `airlines` that
